@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Portal Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Course Portal Dashboard</h1>
+    </header>
+    <main>
+        <section id="folder-list">
+            <h2>Folders in GitHub Repository</h2>
+            <ul id="folders"></ul>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const foldersContainer = document.getElementById('folders');
+
+            // Replace with your GitHub repository API URL
+            const repoUrl = 'https://github.com/aditya5573/contents/';
+
+            fetch(repoUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    data.forEach(item => {
+                        if (item.type === 'dir') {
+                            const li = document.createElement('li');
+                            li.textContent = item.name;
+                            foldersContainer.appendChild(li);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+    </script>
+</body>
+</html>
