@@ -87,7 +87,7 @@
 
         // Function to fetch the list of folders in the repository
         async function fetchRepoFolders() {
-            const url = https://api.github.com/repos/${username}/${repo}/contents;
+            const url = `https://api.github.com/repos/${username}/${repo}/contents`;
             const response = await fetch(url);
             const data = await response.json();
             return data.filter(item => item.type === "dir");
@@ -95,7 +95,7 @@
 
         // Function to fetch README.md description (first 15 words)
         async function fetchReadmeDescription(folder) {
-            const url = https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md;
+            const url = `https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error();
@@ -109,7 +109,7 @@
 
         // Function to load README.md content on click
         async function loadReadme(folder) {
-            const url = https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md;
+            const url = `https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md`;
             try {
                 const response = await fetch(url);
                 if (!response.ok) throw new Error();
@@ -128,11 +128,11 @@
                 const description = await fetchReadmeDescription(folder.name);
                 const courseItem = document.createElement("div");
                 courseItem.className = "course-item";
-                courseItem.innerHTML = 
+                courseItem.innerHTML = `
                     <div class="folder-icon">&#128193;</div>
                     <h3>${folder.name.replace(/-/g, " ").toUpperCase()}</h3>
                     <p>${description}</p>
-                ;
+                `;
                 courseItem.onclick = () => loadReadme(folder.name);
                 courseGrid.appendChild(courseItem);
             }
@@ -143,6 +143,7 @@
     </script>
 </body>
 </html>
+
 
 
 
