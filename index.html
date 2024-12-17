@@ -1,4 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #ab031d;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        .course-list {
+            list-style: none;
+            padding: 0;
+        }
+        .course-list li {
+            margin: 1rem 0;
+        }
+        .course-list a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        .course-list a:hover {
+            color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+        <p>Folders in GitHub Repository</p>
+    </header>
+    <main>
+        <ul id="course-list" class="course-list">
+            <li>Loading courses...</li>
+        </ul>
+    </main>
 
+<script>
+    const repoOwner = "aditya5573"; // Replace with your GitHub username
+    const repoName = "demo1";       // Replace with your repo name
+    const branch = "main";          // Branch to fetch
+    const courseList = document.getElementById("course-list");
+
+    async function fetchFolders() {
+        try {
+            const response = await fetch(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/index.html`);
+            if (!response.ok) throw new Error("Cannot access folders.");
+
+            const folders = ["chaos", "container-and-kubernetes-security", "kubernetes-101"]; // dynamic pages
+    </script>
+</body>
+</html>
 
 
 
