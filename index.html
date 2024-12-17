@@ -55,6 +55,16 @@
         h3, p {
             margin: 0.5rem 0;
         }
+        .readme-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            line-height: 1.6;
+            white-space: pre-wrap;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -64,11 +74,18 @@
     <div class="container">
         <h2>Available Courses</h2>
         <div id="course-grid" class="course-grid"></div>
+        <div id="readme-container" class="readme-container">
+            <h3 id="readme-title"></h3>
+            <div id="readme-content">Loading...</div>
+        </div>
     </div>
     <script>
         const username = "aditya5573";
         const repo = "demo1";
         const courseGrid = document.getElementById("course-grid");
+        const readmeContainer = document.getElementById("readme-container");
+        const readmeTitle = document.getElementById("readme-title");
+        const readmeContent = document.getElementById("readme-content");
 
         // Function to fetch the list of folders in the repository
         async function fetchRepoFolders() {
@@ -97,9 +114,25 @@
             }
         }
 
-        // Redirect to a new page with folder name as query parameter
-        function loadReadme(folder) {
-            window.location.href = read.html?folder=${folder};
+        // Function to fetch the entire README.md content
+        async function fetchReadmeContent(folder) {
+            const url = https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error();
+                return await response.text();
+            } catch {
+                return "README.md not found.";
+            }
+        }
+
+        // Function to display the README.md content on the same page
+        async function displayReadme(folder) {
+            readmeContainer.style.display = "block";
+            readmeTitle.textContent = README for ${folder.replace(/-/g, " ").toUpperCase()};
+            readmeContent.textContent = "Loading...";
+            const content = await fetchReadmeContent(folder);
+            readmeContent.textContent = content;
         }
 
         // Function to display folders dynamically
@@ -114,7 +147,7 @@
                     <h3>${folder.name.replace(/-/g, " ").toUpperCase()}</h3>
                     <p>${description}</p>
                 `;
-                courseItem.onclick = () => loadReadme(folder.name);
+                courseItem.onclick = () => displayReadme(folder.name);
                 courseGrid.appendChild(courseItem);
             }
         }
