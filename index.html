@@ -58,7 +58,7 @@
 
     async function fetchFolders() {
         try {
-            const response = await fetch(`https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/index.html`);
+            const response = await fetch(`https://api.github.com/${repoOwner}/${repoName}/${branch}/index.html`);
             if (!response.ok) throw new Error("Cannot access folders.");
 
             const folders = ["chaos", "container-and-kubernetes-security", "kubernetes-101"]; // dynamic pages
