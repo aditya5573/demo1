@@ -9,59 +9,109 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            background-color: #f4f4f4;
         }
         header {
-            background-color: #4CAF50;
-            color: white;
+            background-color: #007BFF;
+            color: #fff;
             padding: 1rem 0;
             text-align: center;
         }
-        main {
-            padding: 2rem;
+        h1 {
+            margin: 0;
         }
-        .course-list {
-            list-style: none;
+        .container {
+            margin: 2rem auto;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        ul {
+            list-style-type: none;
             padding: 0;
         }
-        .course-list li {
+        li {
             margin: 1rem 0;
-        }
-        .course-list a {
+                    }
+        a {
             text-decoration: none;
-            color: #4CAF50;
-            font-size: 1.2rem;
-            transition: color 0.3s;
+            color: #007BFF;
+            font-weight: bold;
         }
-                .course-list a:hover {
-            color: #45a049;
+        a:hover {
+            text-decoration: underline;
+        }
+        #content {
+            margin-top: 2rem;
+            border-top: 1px solid #ccc;
+            padding-top: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Course Portal Dashboard</h1>
-        <p>Folders in GitHub Repository</p>
+        <h1>Course Portal</h1>
     </header>
-    <main>
-        <ul id="course-list" class="course-list">
-            <li>Loading courses...</li>
+    <div class="container">
+        <h2>Available Courses</h2>
+        <ul id="course-list">
+            <!-- Course links will be dynamically inserted here -->
         </ul>
-    </main>
+        <div id="content">
+            <h3>Course Content</h3>
+            <div id="readme-content">Select a course to load its README.md file.</div>
+        </div>
+    </div>
+        <script>
+        // Define your repo details
+        const username = "aditya5573"; // Your GitHub username
+        const repo = "demo1"; // Your repo name
 
-<script>
-    const repoOwner = "aditya5573"; // Replace with your GitHub username
-    const repoName = "demo1";       // Replace with your repo name
-    const branch = "main";          // Branch to fetch
-    const courseList = document.getElementById("course-list");
+        // List of course folders (manually define them here)
+        const courseFolders = [
+            "chaos",
+            "container-and-kubernetes-security",
+            "kubernetes-101"
+            // Add other folders as needed
+        ];
 
-    async function fetchFolders() {
-        try {
-            const response = await fetch(`https://api.github.com/${repoOwner}/${repoName}/${branch}/index.html`);
-            if (!response.ok) throw new Error("Cannot access folders.");
+        const courseList = document.getElementById("course-list");
+        const readmeContent = document.getElementById("readme-content");
 
-            const folders = ["chaos", "container-and-kubernetes-security", "kubernetes-101"]; // dynamic pages
+        // Function to fetch README.md content
+        function fetchReadme(folder) {
+            const url = `https://raw.githubusercontent.com/${username}/${repo}/main/${folder}/README.md`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("README.md not found");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    readmeContent.textContent = data;
+                })
+                .catch(error => {
+                    readmeContent.textContent = "Error loading README.md: " + error.message;
+                });
+        }
+
+        // Dynamically add course links
+        courseFolders.forEach(folder => {
+            const listItem = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = "#";
+            link.textContent = folder.replace(/-/g, " ").toUpperCase();
+            link.onclick = () => fetchReadme(folder);
+
+            listItem.appendChild(link);
+            courseList.appendChild(listItem);
+        });
     </script>
 </body>
 </html>
